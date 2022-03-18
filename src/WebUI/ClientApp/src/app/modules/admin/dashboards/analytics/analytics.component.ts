@@ -440,7 +440,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
                     enabled: true
                 }
             },
-            colors     : ['#3182CE', '#63B3ED'],
+            colors     : ['#3182CE', '#63B3ED','#756EEA', '#473ED5'],
             labels     : this.data.newVsReturning.labels,
             plotOptions: {
                 pie: {

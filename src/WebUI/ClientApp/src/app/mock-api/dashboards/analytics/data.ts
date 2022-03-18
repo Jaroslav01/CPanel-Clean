@@ -1565,19 +1565,29 @@ export const analytics = {
         ]
     },
     newVsReturning     : {
-        uniqueVisitors: 46085,
-        series        : [80, 20],
+        uniqueVisitors: 180,
+        series        : [45, 25, 20, 10],
         labels        : [
-            'New',
-            'Returning'
+            'Tungsten',
+            'Halogen',
+            'Fluorescent',
+            'LED'
         ]
     },
     gender             : {
-        uniqueVisitors: 46085,
-        series        : [55, 45],
+        uniqueVisitors: 1220,
+        series        : [4, 6, 8, 1.8], //, 1, 14, 3, 40, 10, 13.9
         labels        : [
-            'Male',
-            'Female'
+            'Bedroom 1',
+            'Bedroom 2',
+            'Bedroom',
+            'Bathroom',
+            // 'Restroom',
+            // 'Kitchen',
+            // 'Boxroom',
+            // 'Garage',
+            // 'Basement',
+            // 'Alcove',
         ]
     },
     age                : {
