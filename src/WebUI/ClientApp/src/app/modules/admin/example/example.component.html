@@ -2,117 +2,184 @@
     class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
     cdkScrollable>
 
-    <!-- Main -->
-    <div class="flex-auto p-6 sm:p-0">
+    <mat-drawer-container class="flex-auto overflow-visible">
 
-        <!-- CONTENT GOES HERE -->
-        <div class="h-400 min-h-400 max-h-400 rounded-2xl sm:w-full">
-<!--            border-2 border-dashed border-gray-300-->
-
-            <ng-container *ngIf="devices.length > 0">
-                <div class="flex flex-wrap justify-center">
-
-                    <fuse-card
-                        *ngFor="let device of devices;"
-                        class="relative h-40 min-w-40 m-2 filter-article filter-interactive"
-                        [flippable]="true"
-                        [face]="'front'"
-                        #flippableCard01="fuseCard">
-                        <ng-container fuseCardFront class="relative w-40 h-40 m-2 p-4 shadow rounded-2xl bg-card">
-                            <a
-                                class="absolute z-20 top-2.5 left-2.5 w-12 h-8 min-h-8">
-                                {{device.power}} W
-                            </a>
-                            <a
-                                class="absolute z-20 top-1.5 right-1.5 w-8 h-8 min-h-8"
-                                (click)="flippableCard01.face = flippableCard01.face === 'front' ? 'back' : 'front'"
-                                mat-icon-button>
-                                <mat-icon
-                                    class="icon-size-5">settings</mat-icon>
-                            </a>
-                            <a
-                                class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
-                                (click)="device.isOn = !device.isOn">
-                                <div class="aspect-w-9 aspect-h-6">
-                                    <div class="flex items-center justify-center">
-                                        <!-- Icon -->
-                                        <mat-icon
-                                            *ngIf="device.type === 'tungsten'"
-                                            class="icon-size-14 text-hint"
-                                            [ngClass]="{'lamp-on': device.isOn}">
-                                            tungsten
-                                        </mat-icon>
-
-                                        <mat-icon
-                                            *ngIf="device.type === 'fluorescent'"
-                                            class="icon-size-14 text-hint"
-                                            [ngClass]="{'lamp-on': device.isOn}">
-                                            flourescent
-                                        </mat-icon>
-
-                                        <mat-icon
-                                            *ngIf="device.type === 'halogen'"
-                                            class="icon-size-14 text-hint"
-                                            [ngClass]="{'lamp-on': device.isOn}">
-                                            tungsten
-                                        </mat-icon>
-
-                                        <mat-icon
-                                            *ngIf="device.type === 'led'"
-                                            class="icon-size-14 text-hint"
-                                            [ngClass]="{'lamp-on': device.isOn}">
-                                            light
-                                        </mat-icon>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
-                                    <div
-                                        class="truncate"
-                                        [matTooltip]="device.name">{{device.name}}</div>
-                                    <ng-container *ngIf="device">
-                                        <div class="text-secondary truncate">{{device.description}}</div>
-                                    </ng-container>
-                                </div>
-                            </a>
-                        </ng-container>
-                        <ng-container fuseCardBack class="overflow-hidden">
-                            <div class="flex flex-col flex-auto m-4 overflow-hidden">
-                                <button
-                                    class="ml-1.5"
-                                    mat-icon-button
-                                    (click)="flippableCard01.face = flippableCard01.face === 'front' ? 'back' : 'front'">
-                                    <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
-                                </button>
-                                <div class="m-4 mt-3">
-                                    <mat-select
-                                        class="p-2 rounded-2xl shadow"
-                                        style="margin-top: -8px;"
-                                        [(ngModel)]="device.power"
-                                        required>
-                                        <mat-option value="10">10 W</mat-option>
-                                        <mat-option value="12">12 W</mat-option>
-                                        <mat-option value="15">15 W</mat-option>
-                                        <mat-option value="60">60 W</mat-option>
-                                        <mat-option value="100">100 W</mat-option>
-                                    </mat-select>
-                                    <mat-select
-                                        class="mt-2 p-2 rounded-2xl shadow"
-                                        [(ngModel)]="device.type"
-                                        required>
-                                        <mat-option value="tungsten">Tungsten</mat-option>
-                                        <mat-option value="halogen">Halogen</mat-option>
-                                        <mat-option value="fluorescent">Fluorescent</mat-option>
-                                        <mat-option value="led">LED</mat-option>
-                                    </mat-select>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </fuse-card>
+        <!-- Drawer -->
+        <mat-drawer
+            class="w-72 dark:bg-gray-900"
+            [autoFocus]="false"
+            [mode]="drawerMode"
+            [opened]="drawerOpened"
+            #matDrawer>
+            <!-- Demo sidebar -->
+            <div class="py-10">
+                <!-- Add any extra content that might be supplied with the component -->
+                <div class="extra-content">
+                    <ng-content></ng-content>
                 </div>
-            </ng-container>
 
-        </div>
+                <!-- Fixed demo sidebar -->
+                <div class="mx-6 text-3xl font-bold tracking-tighter">Premises</div>
+                <fuse-vertical-navigation
+                    [appearance]="'default'"
+                    [navigation]="menuData"
+                    [inner]="true"
+                    [mode]="'side'"
+                    [name]="'demo-sidebar-navigation'"
+                    [opened]="true">
+                </fuse-vertical-navigation>
+            </div>
+        </mat-drawer>
 
-    </div>
+        <!-- Drawer content -->
+        <mat-drawer-content class="flex flex-col">
+
+            <!-- Main -->
+            <div class="flex-auto p-6 sm:p-2">
+
+                <!-- Drawer toggle -->
+                <button
+                    class="mb-4"
+                    mat-icon-button
+                    (click)="matDrawer.toggle()">
+                    <mat-icon>filter_alt</mat-icon>
+                </button>
+
+                <!-- CONTENT GOES HERE -->
+                <div class="h-400 min-h-400 max-h-400 rounded-2xl">  <!--border-2 border-dashed border-gray-300-->
+                    <ng-container *ngIf="devices.length > 0">
+                        <div class="flex flex-wrap justify-center">
+
+                            <fuse-card
+                                *ngFor="let device of devices;"
+                                class="relative h-40 min-w-40 m-2 filter-article filter-interactive"
+                                [flippable]="true"
+                                [face]="'front'"
+                                #flippableCard01="fuseCard">
+                                <ng-container fuseCardFront class="relative w-40 h-40 m-2 p-4 shadow rounded-2xl bg-card">
+                                    <a
+                                        class="absolute z-20 top-2.5 left-2.5 w-12 h-8 min-h-8">
+                                        {{device.power}} W
+                                    </a>
+                                    <a
+                                        class="absolute z-20 top-1.5 right-1.5 w-8 h-8 min-h-8"
+                                        (click)="flippableCard01.face = flippableCard01.face === 'front' ? 'back' : 'front'"
+                                        mat-icon-button>
+                                        <mat-icon
+                                            class="icon-size-5">settings</mat-icon>
+                                    </a>
+                                    <a
+                                        class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
+                                        (click)="device.isOn = !device.isOn">
+                                        <div class="aspect-w-9 aspect-h-6">
+                                            <div class="flex items-center justify-center">
+                                                <!-- Icon -->
+                                                <mat-icon
+                                                    *ngIf="device.type === 'tungsten'"
+                                                    class="icon-size-14 text-hint"
+                                                    [ngClass]="{'lamp-on': device.isOn}">
+                                                    tungsten
+                                                </mat-icon>
+
+                                                <mat-icon
+                                                    *ngIf="device.type === 'fluorescent'"
+                                                    class="icon-size-14 text-hint"
+                                                    [ngClass]="{'lamp-on': device.isOn}">
+                                                    flourescent
+                                                </mat-icon>
+
+                                                <mat-icon
+                                                    *ngIf="device.type === 'halogen'"
+                                                    class="icon-size-14 text-hint"
+                                                    [ngClass]="{'lamp-on': device.isOn}">
+                                                    tungsten
+                                                </mat-icon>
+
+                                                <mat-icon
+                                                    *ngIf="device.type === 'led'"
+                                                    class="icon-size-14 text-hint"
+                                                    [ngClass]="{'lamp-on': device.isOn}">
+                                                    light
+                                                </mat-icon>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
+                                            <div
+                                                class="truncate"
+                                                [matTooltip]="device.name">{{device.name}}</div>
+                                            <ng-container *ngIf="device">
+                                                <div class="text-secondary truncate">{{device.description}}</div>
+                                            </ng-container>
+                                        </div>
+                                    </a>
+                                </ng-container>
+                                <ng-container fuseCardBack class="overflow-hidden">
+                                    <div class="flex flex-col flex-auto m-4 overflow-hidden">
+                                        <button
+                                            class="ml-1.5"
+                                            mat-icon-button
+                                            (click)="flippableCard01.face = flippableCard01.face === 'front' ? 'back' : 'front'">
+                                            <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+                                        </button>
+                                        <div class="m-4 mt-3">
+                                            <mat-select
+                                                class="p-2 rounded-2xl shadow"
+                                                style="margin-top: -8px;"
+                                                [(ngModel)]="device.power"
+                                                required>
+                                                <mat-option value="10">10 W</mat-option>
+                                                <mat-option value="12">12 W</mat-option>
+                                                <mat-option value="15">15 W</mat-option>
+                                                <mat-option value="60">60 W</mat-option>
+                                                <mat-option value="100">100 W</mat-option>
+                                            </mat-select>
+                                            <mat-select
+                                                class="mt-2 p-2 rounded-2xl shadow"
+                                                [(ngModel)]="device.type"
+                                                required>
+                                                <mat-option value="tungsten">Tungsten</mat-option>
+                                                <mat-option value="halogen">Halogen</mat-option>
+                                                <mat-option value="fluorescent">Fluorescent</mat-option>
+                                                <mat-option value="led">LED</mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </fuse-card>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
 
 </div>
+
+
+
+
+
+
+
+
+<!--<div-->
+<!--    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"-->
+<!--    cdkScrollable>-->
+
+<!--    &lt;!&ndash; Main &ndash;&gt;-->
+<!--    <div class="flex-auto p-6 sm:p-0">-->
+
+<!--        &lt;!&ndash; CONTENT GOES HERE &ndash;&gt;-->
+<!--        <div class="h-400 min-h-400 max-h-400 rounded-2xl sm:w-full">-->
+<!--&lt;!&ndash;            border-2 border-dashed border-gray-300&ndash;&gt;-->
+
+
+
+<!--        </div>-->
+
+<!--    </div>-->
+
+<!--</div>-->

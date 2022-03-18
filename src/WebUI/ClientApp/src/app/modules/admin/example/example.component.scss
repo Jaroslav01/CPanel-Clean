@@ -1,3 +1,7 @@
 .lamp-on{
     color: var(--fuse-primary)!important;
 }
+
+demo-sidebar fuse-vertical-navigation .fuse-vertical-navigation-wrapper {
+    box-shadow: none !important;
+}
